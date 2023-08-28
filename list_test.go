@@ -6,6 +6,18 @@ import (
 
 func TestList(t *testing.T) {
 	var l *List[int]
+	if p := l.Pop(); p != nil {
+		t.Errorf("expected %v, got %v", nil, p)
+	}
+
+	if s := l.Slice(nil); s != nil {
+		t.Errorf("expected %v, got %v", nil, s)
+	}
+
+	if s := l.ReverseSlice(nil); s != nil {
+		t.Errorf("expected %v, got %v", nil, s)
+	}
+
 	for i := 0; i < 10; i++ {
 		l = l.Push(i)
 	}
@@ -24,7 +36,7 @@ func TestList(t *testing.T) {
 		}
 	})
 
-	t.Run("Reverselice", func(t *testing.T) {
+	t.Run("ReverseSlice", func(t *testing.T) {
 		s := l.ReverseSlice(nil)
 		if n := len(s); n != 10 {
 			t.Errorf("expected %d, got %d", 10, n)
@@ -54,7 +66,7 @@ func TestList(t *testing.T) {
 
 func BenchmarkList(b *testing.B) {
 	var l *List[int]
-	for i := 0; i < 1024; i++ {
+	for i := 0; i < 4096; i++ {
 		l = l.Push(i)
 	}
 
@@ -66,11 +78,11 @@ func BenchmarkList(b *testing.B) {
 
 func BenchmarkListWithSlice(b *testing.B) {
 	var l *List[int]
-	for i := 0; i < 1024; i++ {
+	for i := 0; i < 4096; i++ {
 		l = l.Push(i)
 	}
 
-	s := make([]int, 1024)
+	s := make([]int, 4096)
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
 		l.Slice(s)

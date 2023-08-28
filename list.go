@@ -21,36 +21,18 @@ func (l *List[T]) Pop() *List[T] {
 	return l.next
 }
 
-func (l *List[T]) slice(s []T, n int) []T {
-	if l.next != nil {
-		s = l.next.slice(s, n+1)
-	} else {
-		s = size(s, n+1)
-	}
-
-	s[n] = l.Value
-	return s
-}
-
 func (l *List[T]) Slice(dst []T) []T {
 	if l == nil {
 		return nil
 	}
 
-	return l.slice(dst, 0)
-}
-
-func (l *List[T]) reverseSlice(s []T, n int) []T {
-	m := n + 1
-	if l.next != nil {
-		s = l.next.reverseSlice(s, m)
-		s[len(s)-m] = l.Value
-	} else {
-		s = size(s, m)
-		s[0] = l.Value
+	dst = size(dst, l.len())
+	for i := 0; l != nil; i++ {
+		dst[i] = l.Value
+		l = l.next
 	}
 
-	return s
+	return dst
 }
 
 func (l *List[T]) ReverseSlice(dst []T) []T {
@@ -58,7 +40,22 @@ func (l *List[T]) ReverseSlice(dst []T) []T {
 		return nil
 	}
 
-	return l.reverseSlice(dst, 0)
+	dst = size(dst, l.len())
+	for i := len(dst) - 1; i >= 0; i-- {
+		dst[i] = l.Value
+		l = l.next
+	}
+
+	return dst
+}
+
+func (l *List[T]) len() int {
+	i := 0
+	for ; l != nil; i++ {
+		l = l.next
+	}
+
+	return i
 }
 
 func size[T any](s []T, n int) []T {

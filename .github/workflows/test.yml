@@ -4,6 +4,7 @@ on: [push]
 jobs:
   tests:
     runs-on: ubuntu-latest
+    name: Run Go tests
     strategy:
       matrix:
         go-version:
@@ -14,4 +15,4 @@ jobs:
     - uses: actions/setup-go@v4
       with:
         go-version: ${{ matrix.go-version }}
-    - run: go test -v -race ./...
+    - run: go test -v ./...

@@ -10,17 +10,33 @@ func TestList(t *testing.T) {
 		l = l.Push(i)
 	}
 
-	s := l.Slice(nil)
-	if n := len(s); n != 10 {
-		t.Errorf("expected %d, got %d", 10, n)
-	}
-
-	for i := 0; i < 10; i++ {
-		e := 9 - i
-		if s[i] != e {
-			t.Errorf("expected %d, got %d", e, s[i])
+	t.Run("Slice", func(t *testing.T) {
+		s := l.Slice(nil)
+		if n := len(s); n != 10 {
+			t.Errorf("expected %d, got %d", 10, n)
 		}
-	}
+
+		for i := 0; i < 10; i++ {
+			e := 9 - i
+			if s[i] != e {
+				t.Errorf("expected %d, got %d", e, s[i])
+			}
+		}
+	})
+
+	t.Run("Reverselice", func(t *testing.T) {
+		s := l.ReverseSlice(nil)
+		if n := len(s); n != 10 {
+			t.Errorf("expected %d, got %d", 10, n)
+		}
+
+		for i := 0; i < 10; i++ {
+			e := i
+			if s[i] != e {
+				t.Errorf("expected %d, got %d", e, s[i])
+			}
+		}
+	})
 
 	for i := 0; i < 10; i++ {
 		e := 9 - i
